@@ -28,7 +28,7 @@ public:
     //         (Add the 'virtual' keyword in front.)
     //         A virtual destructor is required for safe deletion
     //         through a Shape* pointer.
-    ~Shape() {}
+    virtual ~Shape() {}
 
     // Pure virtual: Shape is abstract and cannot be instantiated.
     // Each derived class MUST override area(). (Leave this line.)
@@ -51,12 +51,15 @@ public:
     // TODO 2: Write the constructor.
     //   - Call the Shape base constructor with the name "Circle".
     //   - Store the radius.
-    Circle(double r) /* : ... */ {
+    Circle(double r) : Shape("Circle"),radius(r) {
         // TODO
     }
 
     // TODO 3: Override area().  Area of a circle = PI * r * r.
     //         Use override.
+    double area() const override {
+        return 3.14 * radius * radius;
+    }
 
 };
 
@@ -70,11 +73,15 @@ public:
     // TODO 4: Write the constructor.
     //   - Call Shape with the name "Rectangle".
     //   - Store width and height.
-    Rectangle(double w, double h) /* : ... */ {
+    Rectangle(double w, double h) : Shape("Rectangle"),width(w),height(h) {
         // TODO
     }
 
     // TODO 5: Override area().  Area of a rectangle = width * height.
+    
+    double area() const override {
+        return width * height;
+    }
 
 };
 
@@ -85,8 +92,9 @@ public:
     //   - A square is a rectangle whose width == height == side.
     //   - Call the Rectangle constructor with (side, side).
     //   - Then set name = "Square".
-    Square(double side) /* : ... */ {
+    Square(double side) : Rectangle(side,side) {
         // TODO
+        name = "Square";
     }
     // Note: Square reuses Rectangle::area() — no need to rewrite it.
 };
@@ -100,6 +108,13 @@ public:
 //         An empty vector returns 0.0.
 double totalArea(const std::vector<Shape*>& shapes) {
     // TODO
+    if (shapes.size() != 0){
+        double sum = 0.0;
+        for(int i = 0; i < shapes.size(); i++){
+            sum+=shapes[i]->area();
+        }
+        return sum;
+    }
     return 0.0;
 }
 
@@ -107,6 +122,16 @@ double totalArea(const std::vector<Shape*>& shapes) {
 //         If the vector is empty, return "".
 std::string largestShapeName(const std::vector<Shape*>& shapes) {
     // TODO
+    if (shapes.size() != 0){
+        double temp = 0; int point = 0;
+        for(int i = 0; i < shapes.size(); i++){
+            if(shapes[i]->area() > temp){
+                temp = shapes[i]->area();
+                point = i;
+            }
+        }
+        return shapes[point]->getName();
+    }
     return "";
 }
 
