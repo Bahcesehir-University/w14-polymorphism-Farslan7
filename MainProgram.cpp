@@ -58,7 +58,7 @@ public:
     // TODO 3: Override area().  Area of a circle = PI * r * r.
     //         Use override.
     double area() const override {
-        return 3.14 * radius * radius;
+        return M_PI * radius * radius;
     }
 
 };
